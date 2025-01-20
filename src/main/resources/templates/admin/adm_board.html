@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/adm_layout}">
+        
+  <main layout:fragment="mainContent" class="main-container container">
+    <div class="row-12 d-flex">
+      <div class="col d-flex justify-content-start align-items-center m-2"> <!-- align-items-center 추가 -->
+        <h3 class="m-0">게시판 관리</h3>    
+      </div>
+      <div class="col d-flex justify-content-end align-items-center m-2">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMenuModal">게시판 추가</button>
+      </div>
+    </div>
+
+    <table class="table table-bordered"> <!-- table-bordered 클래스를 추가하여 테두리 적용 -->
+      <thead class="table-dark">
+        <tr class="text-center align-middle">
+          <th>No.</th> 
+          <th style="width:320px">게시판명</th> 
+          <th>게시판 설명</th>
+          <th>TABLE명</th> 
+          <th>생성일</th> 
+          <th style="width: 210px;">관리</th> 
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="text-center align-middle" th:each="board, loop : ${boardList}">
+          <!-- 번호 표시 -->
+          <td th:text="${loop.index + 1}"></td>
+          <!-- 게시판 이름 표시 -->
+          <td>
+            <a th:href="@{/board/{boardTable}(boardTable=${board.tableName})}" th:text="${board.boardName}"></a>
+          </td>
+          <td th:text="${board.boardDescription}"></td>
+          <td th:text="'tbl_' + ${board.tableName}"></td>
+          <td th:text="${#temporals.format(board.createdDate, 'YY-MM-dd')}"></td>
+          <td class="d-flex justify-content-center align-items-center">
+            <a th:href="@{/adm/board/modify/{boardTable}(boardTable=${board.tableName})}" class="btn btn-primary mx-3" sec:authorize="isAuthenticated()">수정</a>
+            <form th:action="@{/adm/board/delete/{boardTable}(boardTable=${board.tableName})}" method="post">
+              <button type="submit" class="btn btn-danger mx-1">삭제</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    
+    <!-- 메뉴 추가 모달 팝업 -->
+    <div class="modal fade" id="addMenuModal" tabindex="-1" aria-labelledby="addMenuModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="addMenuModalLabel">메뉴 추가</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <!-- 폼에서 Menu 엔티티와 바인딩 -->
+              <form th:action="@{/adm/board/create}" th:object="${board}" method="post">
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="tableName" class="form-label">게시판 테이블명</label>
+                        <input type="text" th:field="*{tableName}" name="tableName" id="tableName" class="form-control" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="name" class="form-label">게시판 제목</label>
+                        <input type="text" th:field="*{boardName}" name="boardName" id="boardName" class="form-control" required>
+                      </div>
+                      <div class="mb-3">
+                        <label for="name" class="form-label">게시판 설명</label>
+                        <input type="text" th:field="*{boardDescription}" name="boardDescription" id="boardDescription" class="form-control">
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                      <button type="submit" class="btn btn-primary">추가</button>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+
+
+
+  </main>
+</html>

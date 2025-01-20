@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <!-- headFragment를 포함하여 HTML 문서의 head 부분을 정의합니다. -->
+    <th:block layout:replace="~{fragments/adm_head :: headFragment}"></th:block>
+    <style>
+        .nav-container{
+            border-bottom: 1px solid red;
+        }
+        .aside-container{
+            border-right: 1px solid red;
+        }
+        .main-container{
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<!-- 헤더를 포함합니다. -->
+<header layout:replace="~{fragments/header :: headerFragment}"></header>
+
+<!-- 네비게이션 바 -->
+<nav layout:replace="~{fragments/navbar}">
+    <!-- 이곳은 동적으로 변경되는 컨텐츠 입니다. -->
+</nav>
+
+<div class="admin-container container">
+    <aside layout:replace="~{fragments/adm_aside}">
+        <!-- 이곳은 동적으로 변경되는 컨텐츠 입니다. -->
+    </aside>
+
+    <!-- 메인 콘텐츠 -->
+    <main layout:fragment="mainContent">
+        <!-- 여기에 동적으로 변경될 콘텐츠를 삽입합니다. -->
+    </main>
+
+</div>
+
+<!-- 푸터를 포함합니다. -->
+<footer layout:replace="~{fragments/footer :: footerFragment}"></footer>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<footer layout:fragment="footerFragment">
+    <div class="footer-container container">
+        <!-- 여기에 추가적인 footer 내용이 들어갈 수 있습니다 -->
+        <div class="footer-visual">
+            <ul class="footer-list">
+                <li class="footer-list-item"><a th:href="@{/about}">사이트 소개</a></li>
+                <li class="footer-list-item"><a th:href="@{/provision}">서비스 이용약관</a></li>
+                <li class="footer-list-item"><a th:href="@{/privacy}">개인정보 처리방침</a></li>
+                <li class="footer-list-item"><a th:href="@{/#}">모바일 버전</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-copy">Copyright &copy; <b>DunDunHSK.ipdisk.co.kr</b> All Rights Reserved</div>
+    </div>
+</footer>
+</html>

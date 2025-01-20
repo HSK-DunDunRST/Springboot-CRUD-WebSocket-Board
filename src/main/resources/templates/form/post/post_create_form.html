@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/post_layout}">
+
+<main layout:fragment="mainContent" class="main-container container">
+    <h5 class="my-3 border-bottom pb-2">게시글 등록</h5>
+    <form th:action="@{/board/{boardTable}/post/create(boardTable=${boardTable})}" th:object="${PostDTO}" method="post">
+        <div th:replace="~{error/error_form :: errorFormFragment}"></div>
+        <div class="mb-3">
+            <input type="checkbox" class="form-check-input" id="isPinned" name="postIsPinned" th:checked="${postIsPinned}">
+            <label class="form-check-label" for="isPinned">공지글</label>
+        </div>
+        <div class="mb-3">
+            <label for="subject" class="form-label">제목</label>
+            <input type="text" th:field="*{postSubject}" name="postSubject" id="subject" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">내용</label>
+            <textarea th:field="*{postContent}" name="postContent" id="content" class="form-control" rows="10"></textarea>
+        </div>
+        <div class="mb-3" style="display: flex;">
+            <label for="link_1" class="form-label m-0" style="width: 10%; height: 100%; text-align: center;">링크1</label>
+            <input type="text" th:field="*{postLink1}" name="link1" id="link_1" class="form-control">
+        </div>
+        <div class="mb-3" style="display: flex;">
+            <label for="link_2" class="form-label m-0" style="width: 10%; height: 100%; text-align: center;">링크2</label>
+            <input type="text" th:field="*{postLink2}" name="link2" id="link_2" class="form-control">
+        </div>
+        <div class="mb-3" style="display: flex;">
+            <label for="link_3" class="form-label m-0" style="width: 10%; height: 100%; text-align: center;">링크3</label>
+            <input type="text" th:field="*{postLink3}" name="link3" id="link_3" class="form-control">
+        </div>
+        <input type="submit" value="게시하기" class="btn btn-primary my-2">
+    </form>
+</main>
+</html>

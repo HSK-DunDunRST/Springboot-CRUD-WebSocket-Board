@@ -1,0 +1,50 @@
+/* -------- Header -------- */
+header{
+    color: white;
+    background-color: black;
+    border-bottom: 1px solid gray;
+    height: 70px;
+}
+.header-container{
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;  
+}
+.header-container .header-item{
+    width: 33.3%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.header-container .header-item .header-item-group{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.header-container .header-item .user-logo {
+    width:40px;
+    height: 40px;
+}
+.header-container .header-item a {
+    text-align: center;
+}
+.header-container .logo{
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 360px;
+    height: 60px;
+}
+.header-container .logo a img{
+    height: 60px;
+    margin: 0 auto;
+    padding: 0;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<!-- nav bar -->
+<nav layout:fragment="navContent" class="nav-container container">
+    <ul class="nav-list">
+        <!-- 메뉴가 비어있을 때 메시지 표시 -->
+        <div th:if="${#lists.isEmpty(menuList)}" class="list-emp">
+            <p>메뉴 준비중입니다</p>
+        </div>
+        <li class="nav-item" th:each="menu : ${menuList}">
+            <!-- 게시판 링크 -->
+            <a  th:if="${menu.menuType == 'board'}"
+                th:href="@{/board/{link}(link=${menu.boardLink})}" 
+                th:text="${menu.menuName}" 
+                th:target="${menu.openInNewTab ? '_blank' : '_self'}">
+            </a>
+
+            <!-- 외부 링크 -->
+            <a  th:if="${menu.menuType == 'externalLink'}"
+                th:href="${menu.extraLink}" 
+                th:text="${menu.menuName}" 
+                th:target="${menu.openInNewTab ? '_blank' : '_self'}">
+            </a>
+
+        </li>
+    </ul>
+    <button type="button" class="btn bi bi-list list-btn" id="hamburgerButton">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+</nav>
+</html>

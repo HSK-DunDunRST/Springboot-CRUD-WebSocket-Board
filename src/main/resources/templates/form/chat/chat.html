@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.w3.org/1999/xhtml"
+    layout:decorate="~{layout/index_layout}">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <title>채팅방</title>
+</head>
+<main layout:fragment="mainContent" class="main-container container">
+    <div class="card">
+        <div class="card-header text-white bg-primary">
+            <h4 class="mb-0">실시간 채팅</h4>
+        </div>
+        <div class="card-body d-flex flex-column" style="height: 500px;">
+            <div id="connectBox" class="mb-3">
+                <p class="form-label">로그인된 이름: <span id="loggedInName" class="fw-bold"></span></p>
+                <button class="btn btn-secondary mt-2" onclick="connectToChat()">접속하기</button>
+            </div>
+            <div id="chatBox" class="flex-grow-1 overflow-auto p-3 border" style="background-color: #f8f9fa; display: none;">
+                <!-- 메시지가 여기에 표시됩니다 -->
+            </div>
+            <div id="messageBox" class="mt-3 d-flex">
+                <input type="text" id="messageInput" class="form-control me-2" placeholder="메시지를 입력하세요" disabled>
+                <button style="width: 10%;" class="btn btn-primary" onclick="sendMessage()" disabled>전송</button>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        var socket = null;  // 웹소켓 객체
+        var stompClient = null;  // STOMP 클라이언트 객체
+        var loggedInName = [[${loggedInName}]];  // 로그인된 사용자 이름
+        var chatId = [[${chatId}]]; // 메시지 id
+        var roomId = [[${roomId}]]; // 채팅방 id
+
+        // 페이지 로드 시 로그인된 이름 표시
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("loggedInName").textContent = loggedInName;
+        });
+
+        // 채팅방 접속 함수
+        function connectToChat() {
+            document.getElementById("connectBox").style.display = "none"; // 접속하기 버튼 숨김
+            document.getElementById("chatBox").style.display = "block";   // 채팅창 표시
+            enableChat(); // 채팅 활성화
+            connectWebSocket();  // 채팅방 접속 후 웹소켓 연결
+        }
+
+        // 웹소켓 연결 함수
+        function connectWebSocket() {
+            socket = new SockJS('/chat');  // 서버의 '/chat' 경로로 연결을 만듭니다.
+            stompClient = Stomp.over(socket);
+
+            // 서버와의 연결 설정
+            stompClient.connect({}, function(frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/room/' + roomId, function(message) {
+                    showMessage(JSON.parse(message.body));
+                });
+                connectUser();
+            }, function(error) {
+                console.error('Connection error:', error);
+                alert('서버와 접속이 끊겼습니다. 잠시 후 다시 시도해주십시오.');
+            });
+        }
+
+        // 채팅 활성화 함수
+        function enableChat() {
+            var messageInput = document.getElementById("messageInput");
+            var sendButton = document.querySelector("#messageBox button");
+            messageInput.disabled = false;
+            sendButton.disabled = false;
+
+            // 입력 필드에서 엔터 키 이벤트 추가
+            messageInput.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {  // 엔터 키를 감지
+                    sendMessage();
+                    event.preventDefault();  // 기본 동작(줄바꿈) 방지
+                }
+            });
+        }
+
+        // 채팅 입장 로그 보내는 함수
+        function connectUser() {
+            console.log("Connected User : " + loggedInName);
+            var chatMessage = {
+                chatId: chatId,
+                messageType: 'JOIN',
+                sender: loggedInName,
+                sendDateTime: new Date().toISOString()
+            };
+            stompClient.send('/send/chat/' + roomId + '/.join', {}, JSON.stringify(chatMessage));
+        }
+
+        // 메시지를 보내는 함수
+        function sendMessage() {
+            var messageContent = document.getElementById("messageInput").value;
+            if (messageContent && messageContent.trim() !== "" && loggedInName) {
+                var chatMessage = {
+                    messageType: 'CHAT',
+                    sender: loggedInName,
+                    content: messageContent,
+                    sendDateTime: new Date().toISOString()
+                };
+                stompClient.send('/send/chat/' + roomId, {}, JSON.stringify(chatMessage));
+                document.getElementById("messageInput").value = "";  // 입력창 초기화 
+            } else {
+                alert("메시지를 입력하세요.");
+            }
+        }
+
+        // 받은 메시지를 화면에 표시하는 함수
+        function showMessage(message) {
+            var chatBox = document.getElementById("chatBox");
+            var messageElement = document.createElement('div');
+            messageElement.classList.add('p-2', 'mb-2', 'bg-light', 'border', 'rounded');
+
+            // 메시지의 시간을 포맷
+            var formattedTime = formatDateTime(message.sendDateTime);
+            
+            if (message.messageType === 'JOIN') {
+                messageElement.textContent = "[" + formattedTime + "] System: " + message.content;
+            } else {
+                messageElement.textContent = "[" + formattedTime + "] " + message.sender + ": " + message.content;
+            }
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;  // 새로운 메시지가 오면 스크롤을 최하단으로 이동
+        }
+        
+        function formatDateTime(dateTimeString) {
+            var sendDateTime = new Date(dateTimeString);
+            var sendHours = String(sendDateTime.getHours()).padStart(2, '0'); // 시 (2자리 포맷)
+            var sendMinutes = String(sendDateTime.getMinutes()).padStart(2, '0'); // 분 (2자리 포맷)
+            var sendFormatTime = sendHours + ":" + sendMinutes; // HH:MM 형식
+
+            return sendFormatTime;
+        }
+
+    </script>
+</main>
+</html>

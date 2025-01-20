@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout/post_layout}">
+<head>
+    <title>게시글 목록</title>
+</head>
+<main layout:fragment="mainContent" class="main-container container">
+    <div class="row-12 d-flex">
+        <div class="col d-flex justify-content-start m-2 ps-3">
+            <h3 th:text="${boardName}"></h3>
+        </div>
+        <div class="col d-flex justify-content-end m-2 ps-3">
+            <a href="/adm/board" class="btn btn-danger mx-2 p-6" sec:authorize="isAuthenticated()">게시판 설정</a>
+            <a th:href="@{/board/{boardTable}/create/(boardTable=${boardTable})}" class="btn btn-primary p-6" sec:authorize="isAuthenticated()">게시글 작성하기</a>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="table-dark">
+        <tr class="text-center">
+            <th>번호</th>
+            <th style="width:30%">제목</th>
+            <th>글쓴이</th>
+            <th>조회수</th>
+            <th>작성일시</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr class="text-center" th:each="post, loop : ${postList}" 
+                th:classappend="${post.post_isPinned} ? 'table-danger' : ''" 
+                th:attr="data-post-subject=${post.post_subject}, data-post-is-pinned=${post.post_isPinned}">
+                <td th:text="${loop.count}"></td>
+                <td>
+                    <a th:href="@{|/board/{boardTable}/${post.id}|(boardTable=${boardTable})}" th:text="${post.post_subject}"></a>
+                </td>
+                <td><span th:text="${post.create_user}"></span></td>
+                <td th:text="${post.view_count}"></td>
+                <td th:text="${post.post_created}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const rows = document.querySelectorAll("tbody tr");
+            rows.forEach(row => {
+                logPostInfo(row);
+            });
+        });
+
+        function logPostInfo(row) {
+            const postSubject = row.getAttribute("data-post-subject");
+            const isPinned = row.getAttribute("data-post-is-pinned") === 'true';
+
+            console.log(`Post Subject: ${postSubject}, Type: ${typeof(postSubject)}, Is Pinned: ${isPinned}, Type of Is Pinned: ${typeof(isPinned)}`);
+        }
+    </script>
+</main>
+</html>

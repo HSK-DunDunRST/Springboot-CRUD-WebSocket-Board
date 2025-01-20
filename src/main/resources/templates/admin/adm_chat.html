@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.w3.org/1999/xhtml"
+    layout:decorate="~{layout/adm_layout}" >
+<head>
+    <title>채팅방 목록</title>
+</head>
+<main layout:fragment="mainContent" class="main-container container">
+    <div class="row-12 d-flex">
+        <div class="col d-flex justify-content-start m-2">
+            <h3 class="m-0">채팅방 목록</h3>
+        </div>
+        <div class="col d-flex justify-content-end align-items-center m-2">
+            <!-- 메뉴 추가 버튼 -->
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMenuModal">채팅방 생성</button>
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+        <tr class="text-center">
+            <th>No.</th>
+            <th>채팅방 이름</th>
+            <th>TABLE명</th>
+            <th style="width: 20%;">채팅방 설명</th>
+            <th>최대 인원수</th>
+            <th>비밀방</th>
+            <th>생성날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr class="text-center" th:each="room, loop : ${roomList}">
+                <td th:text="${room.roomId}"></td>
+                <td>
+                    <a th:text="${room.chatRoomName}" th:href="@{/chat/room/{roomId}(roomId=${room.roomId})}"></a>
+                </td>
+                <td th:text="${room.chatDataTable}"></td>
+                <td th:text="${room.chatRoomDescription}"></td>
+                <td th:text="${room.chatRoomMaxJoiner}"></td>
+                <td th:text="${room.chatRoomSecurity ? '예' : '아니오'}"></td>
+                <td th:text="${#temporals.format(room.chatRoomCreateTime, 'YY-MM-dd')}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 채팅방 생성  팝업 -->
+    <div class="modal fade" id="addMenuModal" tabindex="-1" aria-labelledby="addMenuModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMenuModalLabel">채팅방 생성</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- 폼에서 Menu 엔티티와 바인딩 -->
+                <form th:action="@{/adm/chat/create}" th:object="${chatRoom}" method="post">
+                    <div class="modal-body">
+                        <div th:replace="~{error/error_form :: errorFormFragment}"></div>
+                        <div class="mb-3">
+                            <label for="chatRoomName" class="form-label">채팅방 이름</label>
+                            <input type="text" id="chatRoomName" th:field="*{chatRoomName}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="chatDataTable" class="form-label">채팅방 DB이름</label>
+                            <input type="text" id="chatDataTable" th:field="*{chatDataTable}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="chatRoomDescription" class="form-label">채팅방 설명</label>
+                            <input type="text" id="chatRoomDescription" th:field="*{chatRoomDescription}" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="chatRoomMaxJoiner" class="form-label">최대 인원 수</label>
+                            <input type="text" id="chatRoomMaxJoiner" th:field="*{chatRoomMaxJoiner}" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="chatRoomSecurity" class="form-label">비밀방</label>
+                            <select id="chatRoomSecurity" th:field="*{chatRoomSecurity}" class="form-select" onchange="togglePasswordField()">
+                                <option value="false" selected>아니오</option>
+                                <option value="true">예</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="chatRoomPassword" class="form-label">비밀번호 (숫자4자리)</label>
+                            <input type="password" id="chatRoomPassword" th:field="*{chatRoomPassword}" class="form-control" disabled>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="submit" class="btn btn-primary">추가</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordField() {
+            const selectElement = document.getElementById('chatRoomIsSecurity');
+            const passwordField = document.getElementById('chatRoomPassword');
+            if (selectElement.value === 'true') {
+                passwordField.disabled = false;
+            } else {
+                passwordField.disabled = true;
+            }
+        }
+    </script>
+    
+</main>
+</html>

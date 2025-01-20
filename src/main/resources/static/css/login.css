@@ -1,0 +1,9 @@
+/* -------- login.html CSS -------- */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    text-align: center;
+    align-items: center;
+    padding-top: 100px;
+}

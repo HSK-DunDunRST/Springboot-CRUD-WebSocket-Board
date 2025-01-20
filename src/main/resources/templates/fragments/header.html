@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.w3.org/1999/xhtml"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!-- header -->
+<header layout:fragment="headerFragment">
+    <div class="header-container container">
+        <div class="header-item">
+            <!-- 검색바 영역-->
+            <div class="col-10">
+                <div class="input-group">
+                    <input type="text" id="search_kw" class="form-control" th:value="${kw}">
+                    <button class="btn btn-outline-secondary" type="button" id="btn_search" style="color: white;">찾기</button>
+                </div>
+            </div>
+        </div>
+        <div class="logo">
+            <a th:href="@{/#}"><img th:src="@{/img/logo.png}" alt="Logo"></a>
+        </div>
+        <div class="header-item">
+            <div class="header-item-group">
+                <img class="user-logo" th:src="@{/img/user.png}" alt="사용자" sec:authorize="isAuthenticated()">
+                <div class="header-item-group">
+                    <!-- <p sec:authorize="isAuthenticated()" class="m-2"><span th:text="${#authentication.principal.recentLogin}"></span></p> -->
+                    <p sec:authorize="isAuthenticated()" class="m-2"><span th:text="${#authentication.principal.username}"></span></p>
+                </div>
+            </div>
+            <div class="header-item-group">
+                <a th:href="@{/login}" sec:authorize="isAnonymous()" class="btn btn-primary btn-block m-1">로그인</a>
+                <a th:href="@{/adm/dashboard}" th:if="${isAdmin}" class="btn btn-primary btn-block m-1"><i class="bi bi-gear"></i></a>
+                <a th:href="@{/logout}" sec:authorize="isAuthenticated()" class="btn btn-primary btn-block m-1">로그아웃</a>
+                <a th:href="@{/signup}" sec:authorize="isAnonymous()" class="btn btn-primary btn-block m-1">회원가입</a>
+            </div>
+        </div>
+    </div>
+</header>
+</html>

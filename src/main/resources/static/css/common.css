@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* 영역 구분용 */
+    /* border: 1px dashed red; */
+}
+
+li{ list-style-type: none; }
+
+a{ text-decoration: none; }
+
+.container{
+    width:  1400px;
+    height: 800px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.aside-container{
+    width: 20%;
+    height: inherit;
+    padding: 10px;
+}
+
+.main-cotainer{
+    position: relative;
+}

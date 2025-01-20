@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.w3.org/1999/xhtml"
+    layout:decorate="~{layout/adm_layout}">
+<head>
+    <title>메뉴 설정</title>
+</head>
+<main layout:fragment="mainContent" class="main-container container">
+    <div class="row-12 d-flex">
+        <div class="col d-flex justify-content-start align-items-center m-2">
+            <h3 class="m-2">메뉴 설정</h3>
+        </div>
+        <div class="col d-flex justify-content-end align-items-center m-2">
+            <!-- 메뉴 추가 버튼 -->
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMenuModal">메뉴 추가</button>
+        </div>
+    </div>
+
+    <!-- 메뉴 리스트 -->
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr class="text-center align-middle">
+                <th class="w-25">등록된 메뉴 이름</th>
+                <th>링크</th>
+                <th>새창</th>
+                <th>순서</th>
+                <th>작업</th>
+            </tr>
+        </thead>
+        <tbody id="menuTableBody">
+            <tr th:each="menu : ${menuList}" class="text-center align-middle">
+                <td th:text="${menu.menuName}"></td>
+                <td>
+                    <p class="m-0 p-0" th:if="${menu.menuType == 'board'}" th:text="${menu.boardLink}"></p>
+                    <p class="m-0 p-0" th:if="${menu.menuType == 'externalLink'}" th:text="${menu.extraLink}"></p>
+                </td>
+                <td>
+                    <p class="m-0 p-0" th:if="${menu.openInNewTab}">사용함.</p>
+                    <p class="m-0 p-0" th:unless="${menu.openInNewTab}">사용안함.</p>
+                </td>
+                <td th:text="${menu.menuOrder}"></td>
+                <td class="d-flex justify-content-center align-items-center">
+                    <form th:action="@{/adm/menu/edit/{id}(id=${menu.menuId})}" th:object="${menu}" method="post">
+                        <button type="submit" class="btn btn-danger mx-1">수정</button>
+                    </form>
+                    <form th:action="@{/adm/menu/delete/{id}(id=${menu.menuId})}" th:object="${menu}" method="post">
+                        <button type="submit" class="btn btn-danger mx-1">삭제</button>
+                    </form>
+                    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- 메뉴 추가 모달 팝업 -->
+<div class="modal fade" id="addMenuModal" tabindex="-1" aria-labelledby="addMenuModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMenuModalLabel">메뉴 추가</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- 폼에서 Menu 엔티티와 바인딩 -->
+            <form th:action="@{/adm/menu/add}" th:object="${menu}" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="menuOrder" class="form-label">순서</label>
+                        <input type="number" id="menuOrder" th:field="*{menuOrder}" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="menuName" class="form-label">메뉴 이름</label>
+                        <input type="text" id="menuName" th:field="*{menuName}" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="menuType" class="form-label">메뉴 유형</label>
+                        <select id="menuType" th:field="*{menuType}" class="form-select" required>
+                            <option value="board" selected>게시판</option>
+                            <option value="externalLink">외부 링크</option>
+                        </select>
+                    </div>
+                    
+                    <!-- 게시판 선택 필드 -->
+                    <div class="mb-3" id="boardSelection" style="display: none;">
+                        <label for="boardName" class="form-label">게시판 이름</label>
+                        <select id="boardName" th:field="*{boardLink}" class="form-select">
+                            <option th:each="board : ${boardList}" th:value="${board.tableName}" th:text="${board.boardName}"></option>
+                        </select>
+                    </div>
+                    
+                    <!-- 외부 링크 입력 필드 -->
+                    <div class="mb-3" id="externalLinkInput" style="display: none;">
+                        <label for="linkUrl" class="form-label">링크 (https://를 포함한 주소를 입력하십시오.)</label>
+                        <input type="text" id="linkUrl" th:field="*{extraLink}" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="openInNewTab" class="form-label">새창</label>
+                        <select id="openInNewTab" th:field="*{openInNewTab}" class="form-select">
+                            <option value="false" selected>아니오</option>
+                            <option value="true">예</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="submit" class="btn btn-primary">추가</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const menuTypeSelect = document.getElementById("menuType");
+        const boardSelection = document.getElementById("boardSelection");
+        const externalLinkInput = document.getElementById("externalLinkInput");
+
+        menuTypeSelect.addEventListener("change", function () {
+            if (menuTypeSelect.value === "board") {
+                boardSelection.style.display = "block";
+                externalLinkInput.style.display = "none";
+            } else if (menuTypeSelect.value === "externalLink") {
+                boardSelection.style.display = "none";
+                externalLinkInput.style.display = "block";
+            }
+        });
+
+        // Trigger change event on page load to ensure correct display
+        menuTypeSelect.dispatchEvent(new Event("change"));
+    });
+</script>
+
+
+</main>
+</html>
