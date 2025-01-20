@@ -18,18 +18,4 @@ public class BoardApplication {
 		SpringApplication.run(BoardApplication.class, args);
 	}
 
-    // @Bean
-    // ServletWebServerFactory servletContainer() {
-    //     TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
-    //     tomcat.addAdditionalTomcatConnectors(createSslConnector());
-    //     return tomcat;
-    // }
-
-    // private Connector createSslConnector() {
-    //     Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-    //     connector.setScheme("https");
-    //     connector.setSecure(true);
-    //     connector.setPort(5001);
-    //     return connector;
-    // }
 }

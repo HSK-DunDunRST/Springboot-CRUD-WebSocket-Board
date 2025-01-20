@@ -21,20 +21,20 @@ public class UserController {
     /* 로그인 페이지 요청 */
     @GetMapping("/login")
     public String login(LoginForm loginForm) {
-        return "form/login/login_form"; // 로그인 페이지로 이동
+        return "form/login/login"; // 로그인 페이지로 이동
     }
 
     /* 회원가입 페이지 요청 */
     @GetMapping("/signup")
     public String signup(SignupForm signupForm) {
-        return "form/login/signup_form"; // 회원가입 페이지로 이동
+        return "form/login/signup"; // 회원가입 페이지로 이동
     }
 
     /* 회원가입 처리 요청 */
     @PostMapping("/signup")
     public String signup(@Valid SignupForm signupForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) { // 폼 데이터에 오류가 있는지 확인
-            return "form/login/signup_form"; // 오류가 있을 경우 다시 회원가입 페이지로 이동
+            return "form/login/signup"; // 오류가 있을 경우 다시 회원가입 페이지로 이동
         }
         try {
             // 사용자 생성 로직 호출
@@ -43,7 +43,7 @@ public class UserController {
             // 데이터 무결성 위반 예외 처리 (예: 중복된 사용자 ID)
             dataIntegrityViolationException.printStackTrace();
             bindingResult.reject("signupFailed", "이미 가입된 사용자입니다."); // 오류 메시지 설정
-            return "form/login/signup_form"; // 오류가 있을 경우 다시 회원가입 페이지로 이동
+            return "form/login/signup"; // 오류가 있을 경우 다시 회원가입 페이지로 이동
         } catch (Exception exception) {
             // 기타 예외 처리
             exception.printStackTrace();

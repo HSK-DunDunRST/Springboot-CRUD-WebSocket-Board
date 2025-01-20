@@ -86,13 +86,14 @@ public class AdminController {
         return "redirect:/adm/board"; // 정상적으로 리다이렉트
     }
 
+    // ! 게시판 수정 기능 팝업 Modal로 변경 예정
     // 게시판 수정 페이지 요청
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/board/modify/{boardTable}")
     public String modifyBoard(@PathVariable String boardTable, Model model){
         Optional<Board> board = boardService.findByTableName(boardTable);
         model.addAttribute("board", board);
-        return "form/board/board_modify_form";
+        return "form/board/board_modify";
     }
 
     // 게시판 수정 처리 요청

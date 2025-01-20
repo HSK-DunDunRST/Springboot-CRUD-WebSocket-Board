@@ -33,7 +33,9 @@ public class GlobalController {
     @ModelAttribute
     public void addMenuList(Model model) {
         List<Menu> menuList = menuService.findAll(); // 메뉴 리스트 가져오기
-        model.addAttribute("menuList", menuList); // 모델에 추가\
-        System.out.println("MenuList >> " + menuList.toString());
+        model.addAttribute("menuList", menuList); // 모델에 추가
+
+        // * Debug 전용 출력문
+        // System.out.println("MenuList >> " + menuList.toString());
     }
 }

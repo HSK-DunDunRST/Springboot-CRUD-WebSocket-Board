@@ -66,7 +66,7 @@ public class BoardController {
         // * Debug 전용 출력문
         // System.out.println("TEST Print ID: " + id);  // PASS
 
-        return "form/post/post_create_form";
+        return "form/post/post_create";
     }
 
     // 게시글 생성 처리
@@ -93,11 +93,12 @@ public class BoardController {
         PostDTO post = postService.getPost(boardTable, postId);
         model.addAttribute("post", post);
         model.addAttribute("boardTable", boardTable);
-        
-        System.out.println("Post Subject: " + post.getPostSubject());
-        System.out.println("Link1: " + post.getPostLink1());
-        System.out.println("Link2: " + post.getPostLink2());
-        System.out.println("Link3: " + post.getPostLink3());
+
+        // * Debug 전용 출력문
+        // System.out.println("Post Subject: " + post.getPostSubject());
+        // System.out.println("Link1: " + post.getPostLink1());
+        // System.out.println("Link2: " + post.getPostLink2());
+        // System.out.println("Link3: " + post.getPostLink3());
 
         return "views/post_view";
     }
