@@ -5,7 +5,7 @@
 
 <main layout:fragment="mainContent" class="main-container container">
     <h5 class="my-3 border-bottom pb-2">게시글 등록</h5>
-    <form th:action="@{/board/{boardTable}/post/create(boardTable=${boardTable})}" th:object="${PostDTO}" method="post">
+    <form th:action="@{/board/{boardTable}/create(boardTable=${boardTable})}" th:object="${PostDTO}" method="post">
         <div th:replace="~{error/error_form :: errorFormFragment}"></div>
         <div class="mb-3">
             <input type="checkbox" class="form-check-input" id="isPinned" name="postIsPinned" th:checked="${postIsPinned}">

@@ -56,7 +56,7 @@ public class AdminController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/dashboard")
     public String adminPage(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        return "admin/index"; // admin_dashboard.html 템플릿 반환
+        return "adm/adm_index"; // admin_dashboard.html 템플릿 반환
     }
 
     // 게시판 관리 페이지 ( 게시판 전체 조회 )
@@ -65,7 +65,7 @@ public class AdminController {
     public String listBoards(Model model) {
         model.addAttribute("boardList", boardService.findAll()); 
         model.addAttribute("board", new Board());// 모델에 추가
-        return "admin/adm_board";  // Thymeleaf 템플릿으로 반환
+        return "adm/adm_board";  // Thymeleaf 템플릿으로 반환
     }
 
     // 게시판 생성 처리 요청
@@ -126,7 +126,7 @@ public class AdminController {
     public String viewChat(Model model) {
         model.addAttribute("roomList", chatRoomService.findAllChatRoom());
         model.addAttribute("chatRoom", new ChatRoomEntity());
-        return "admin/adm_chat";
+        return "adm/adm_chat";
     }
     
     //채팅방 생성 처리 (동적 및 검증 기능 구분)
@@ -179,7 +179,7 @@ public class AdminController {
         model.addAttribute("menuList", menuService.findAll());
         model.addAttribute("menu", new Menu());
         model.addAttribute("boardList", boardService.findAll());
-        return "admin/adm_menu";
+        return "adm/adm_menu";
     }
 
     @PreAuthorize("isAuthenticated()")

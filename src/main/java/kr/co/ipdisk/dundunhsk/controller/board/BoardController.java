@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.ipdisk.dundunhsk.service.BoardService;
 import kr.co.ipdisk.dundunhsk.service.UserService;
@@ -31,6 +32,7 @@ import kr.co.ipdisk.dundunhsk.entity.Board;
 
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/board")
 public class BoardController {
 
     @Autowired
@@ -43,7 +45,7 @@ public class BoardController {
     private final JdbcTemplate jdbcTemplate;
     
     // 게시글 목록 페이지 요청
-    @GetMapping("/board/{boardTable}")
+    @GetMapping("/{boardTable}")
     public String listPosts(@PathVariable("boardTable") String boardTable, Model model, @ModelAttribute PostDTO postDTO) {
         // 테이블 목록 테이블에서 조회
         Optional<Board> board = boardService.findByTableName(boardTable);
@@ -51,21 +53,24 @@ public class BoardController {
         model.addAttribute("boardName", boardName);
         model.addAttribute("boardTable", boardTable);
         model.addAttribute("postList", jdbcTemplate.queryForList("SELECT * FROM " + "tbl_" + boardTable));
-        return "views/post_list_view";
+        return "views/board_view";
     }
 
     //게시글 작성 페이지 요청
-    @GetMapping("/board/{boardTable}/create/")
+    @GetMapping("/{boardTable}/create/")
     public String createPost(@PathVariable  String boardTable, Model model) {
         PostDTO postDTO = new PostDTO(); // DTO 초기화
         model.addAttribute("boardTable", boardTable);
         model.addAttribute("PostDTO", postDTO); // 모델에 추가
+        
+        // * Debug 전용 출력문
         // System.out.println("TEST Print ID: " + id);  // PASS
+
         return "form/post/post_create_form";
     }
 
     // 게시글 생성 처리
-    @PostMapping("/board/{boardTable}/create")
+    @PostMapping("/{boardTable}/create")
     public String createPost(@PathVariable String boardTable, @ModelAttribute PostDTO postDTO, Model model) {
         Optional<Board> board = boardService.findByTableName(boardTable);
         String boardName = board.get().getBoardName();
@@ -83,7 +88,7 @@ public class BoardController {
     }
 
     // 게시글 보기 
-    @GetMapping("/board/{boardTable}/{postId}")
+    @GetMapping("/{boardTable}/{postId}")
     public String viewPost(@PathVariable String boardTable, @PathVariable Long postId, @ModelAttribute PostDTO postDTO, Model model) {
         PostDTO post = postService.getPost(boardTable, postId);
         model.addAttribute("post", post);
@@ -94,6 +99,6 @@ public class BoardController {
         System.out.println("Link2: " + post.getPostLink2());
         System.out.println("Link3: " + post.getPostLink3());
 
-        return "views/post_detail_view";
+        return "views/post_view";
     }
 }

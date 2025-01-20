@@ -73,28 +73,3 @@
 .list-btn.active {
     transform: rotate(90deg);
 }
-
-/* 슬라이드 영역 스타일 */
-.hamburger-container {
-    position: fixed;
-    right: -300px; /* 초기 위치 */
-    width: 300px;
-    height: 100vh;
-    background-color: #f8f9fa;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    transition: right 0.3s ease-in-out;
-    z-index: 99;
-    overflow: visible;
-}
-
-.hamburger-container.active {
-    right: 0px; /* 활성화 상태 */
-}
-
-.hamburger-content {
-    padding: 20px;
-}
-
-.hamburger-content h3 {
-    margin-top: 0;
-}

@@ -4,7 +4,7 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <!-- headFragment를 포함하여 HTML 문서의 head 부분을 정의합니다. -->
-    <th:block layout:replace="~{fragments/adm_head :: headFragment}"></th:block>
+    <th:block layout:replace="~{fragments/adm/adm_head :: headFragment}"></th:block>
     <style>
         .nav-container{
             border-bottom: 1px solid red;
@@ -26,8 +26,10 @@
     <!-- 이곳은 동적으로 변경되는 컨텐츠 입니다. -->
 </nav>
 
+<div layout:replace="~{fragments/hamburger}"></div>
+
 <div class="admin-container container">
-    <aside layout:replace="~{fragments/adm_aside}">
+    <aside layout:replace="~{fragments/adm/adm_aside}">
         <!-- 이곳은 동적으로 변경되는 컨텐츠 입니다. -->
     </aside>
 
