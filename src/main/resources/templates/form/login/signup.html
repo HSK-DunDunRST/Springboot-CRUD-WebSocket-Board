@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/post_layout}">  >
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/post_layout}">  >
 
 <main layout:fragment="mainContent" class="main-container container d-flex flex-column justify-content-center align-items-center">
     <div class="my-3 border-bottom">
@@ -10,7 +10,7 @@
         </div>
     </div>
     <form th:action="@{/signup}" th:object="${signupForm}" method="post" style="width: 30%;">
-        <div th:replace="~{error/error_form :: errorFormFragment}"></div>
+        <div th:replace="~{error/error_field :: errorFormFragment}"></div>
         <div class="mb-3">
             <input type="text" th:field="*{userName}" class="form-control" placeholder="이름 Name" autofocus>
         </div>
