@@ -1,36 +1,49 @@
 /* 슬라이드 영역 스타일 */
 .hamburger-container {
     /* 화면에 고정된 위치 */
-    position: relative;
+    position: fixed;
     /* 초기 위치를 화면 위로 설정하여 보이지 않게 함 */
-    top: -500px; 
-    /* 가로형 메뉴의 너비 */
-    width: 800px; 
+    top: 110px;
+    /* 1400px 영역의 가운데 맞춤 */
+    left: calc((100% - 1400px));
+    /* 너비를 100%로 설정 */
+    width: 1000px;
     /* 가로형 메뉴의 높이 */
-    height: 50px; 
+    height: 200px;
     /* 배경색 설정 */
-    background-color: #f8f9fa; 
+    background-color: #f8f9fa;
     /* 그림자 효과 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-    /* top 속성의 변화를 부드럽게 전환 */
-    transition: top 0.3s ease-in-out;
-    /* 다른 요소보다 뒤에 위치 */
-    z-index: 1; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* 속성의 변화를 부드럽게 전환 */
+    transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    /* 다른 요소보다 앞에 위치 */
+    z-index: 99;
     /* 넘치는 콘텐츠를 보이게 함 */
-    overflow: visible; 
+    overflow: visible;
+    /* 투명도 설정 */
+    opacity: 0;
+    /* 요소를 보이지 않게 설정 */
+    visibility: hidden;
+    /* 박스 크기 설정 */
+    box-sizing: border-box;
+    /* 디스플레이 속성 설정 */
+    display: none;
 }
 
 .hamburger-container.active {
-    /* 활성화 상태에서 nav 바 아래로 위치 */
-    top: 150px; 
+    display: block;
+    /* 투명도 설정 */
+    opacity: 1;
+    /* 요소를 보이게 설정 */
+    visibility: visible;
 }
 
 .hamburger-content {
     /* 내부 여백 설정 */
-    padding: 20px; 
+    padding: 20px;
 }
 
 .hamburger-content h3 {
     /* h3 요소의 상단 여백 제거 */
-    margin-top: 0; 
+    margin-top: 0;
 }

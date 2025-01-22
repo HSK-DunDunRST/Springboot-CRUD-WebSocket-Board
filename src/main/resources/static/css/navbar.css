@@ -4,6 +4,7 @@
     display: flex;
     padding: 0px;
     border-bottom: 1px solid #e0e2e5;
+    background-color: white;
     position: relative;
     z-index: 2;
 }
