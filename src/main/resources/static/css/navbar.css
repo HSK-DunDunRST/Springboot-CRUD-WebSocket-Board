@@ -3,13 +3,23 @@
     height: 40px;
     display: flex;
     padding: 0px;
-    border-bottom: 1px solid #e0e2e5;
     background-color: white;
     position: relative;
     z-index: 2;
+    flex-direction: column;
+}
+.nav-container.active{
+    height: 240px;
+    position: sticky;
+}
+
+
+.nav-container .nav-menu{
+    display: flex;
 }
 .nav-container .nav-list{
     display: flex;
+    border-bottom: 1px solid #e0e2e5;
     flex-direction: row;
     align-items: center;
     margin: 0;
@@ -29,6 +39,7 @@
     width: 100%
 }
 .nav-container .nav-list .list-emp p {
+    color: #202b64;
     font-weight: bold;
     margin: 0;
     padding: 0;

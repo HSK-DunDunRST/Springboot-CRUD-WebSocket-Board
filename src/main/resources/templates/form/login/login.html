@@ -18,10 +18,10 @@
             </div>
         </div>
         <div class="mb-3">
-            <input type="text" th:field="*{userId}" class="form-control" placeholder="아이디 ID" autofocus>
+            <input type="text" th:field="*{userId}" class="form-control" placeholder="아이디 ID" autofocus autocomplete="off">
         </div>
         <div class="mb-3">
-            <input type="password" th:field="*{userPwd}" class="form-control" placeholder="비밀번호 Password">
+            <input type="password" th:field="*{userPwd}" class="form-control" placeholder="비밀번호 Password" autocomplete="off">
         </div>
         <button type="submit" class="btn btn-primary w-100">로그인</button>
     </form>

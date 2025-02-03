@@ -4,47 +4,81 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 
-/* JPA */
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @Table(name = "user_config")
-public class SiteUser {
-    /* 기본키 + 자동 증감(user_seq) */
+public class SiteUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /* 유저 아이디 */
     @Column(name = "USER_ID", nullable = false)
     private String userId;
 
-    /* 유저 비밀번호 */
     @Column(name = "USER_PWD", nullable = false)
     private String userPwd;
 
-    /* 유저 이름 */
     @Column(name = "USER_NAME", nullable = false, unique = true)
     private String userName;
 
-    /* 유저 이메일 */
     @Column(name = "USER_EMAIL", nullable = false, unique = true)
     private String userEmail;
 
-    /* 유저 가입 날짜 */
     @Column(name = "SIGNUP_DATE", nullable = false)
     private LocalDateTime signUpDate;
 
-    /* 유저 최근 로그인 날짜 */
-    @Column(name ="RECENT_LOGIN")
+    @Column(name = "RECENT_LOGIN")
     private LocalDateTime recentLogin;
 
-    /* 사용자 권한 */
-//    @Column(name = "USER_ROLE", columnDefinition = "VARCHAR")
-//    private
-    /* 사용자 이미지 (시간이 된다면 도전 ) */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "USER_ROLE", length = 50)
+    private UserRole userRole;
+
+    // 가능할때 프로필 사진 기능 넣기
+
+    // UserDetails 구현 메서드
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority(userRole.getValue()));
+    }
+
+    @Override
+    public String getPassword() {
+        return this.userPwd;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

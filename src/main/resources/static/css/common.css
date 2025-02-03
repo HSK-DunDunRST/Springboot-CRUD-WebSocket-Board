@@ -12,7 +12,7 @@ li{ list-style-type: none; }
 a{ text-decoration: none; }
 
 .container{
-    width:  1400px;
+    max-width:  1400px;
     height: calc(100vh - 150px);
     margin: 0 auto;
     padding: 10px;
@@ -24,6 +24,6 @@ a{ text-decoration: none; }
     padding: 10px;
 }
 
-.main-cotainer{
+.main-container{
     position: relative;
 }

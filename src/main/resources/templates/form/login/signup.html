@@ -12,16 +12,16 @@
     <form th:action="@{/signup}" th:object="${signupForm}" method="post" style="width: 30%;">
         <div th:replace="~{error/error_field :: errorFormFragment}"></div>
         <div class="mb-3">
-            <input type="text" th:field="*{userName}" class="form-control" placeholder="이름 Name" autofocus>
+            <input type="text" th:field="*{userId}" class="form-control" placeholder="아이디 ID" autofocus autocomplete="off">
         </div>
         <div class="mb-3">
-            <input type="text" th:field="*{userId}" class="form-control" placeholder="아이디 ID">
+            <input type="password" th:field="*{userPwd}" class="form-control" placeholder="비밀번호 Password" autocomplete="off">
         </div>
         <div class="mb-3">
-            <input type="password" th:field="*{userPwd}" class="form-control" placeholder="비밀번호 Password">
+            <input type="text" th:field="*{userName}" class="form-control" placeholder="이름 Name" autocomplete="off">
         </div>
         <div class="mb-3">
-            <input type="email" th:field="*{userEmail}" class="form-control" placeholder="이메일 Email">
+            <input type="email" th:field="*{userEmail}" class="form-control" placeholder="이메일 Email" autocomplete="off">
         </div>
         <button type="submit" class="btn btn-primary w-100">가입하기</button>
     </form>

@@ -2,8 +2,8 @@
 .login-container {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
     text-align: center;
     align-items: center;
-    padding-top: 100px;
+    padding-bottom: 200px;
 }

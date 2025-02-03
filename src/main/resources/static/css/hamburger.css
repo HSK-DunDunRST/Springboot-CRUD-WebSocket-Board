@@ -17,7 +17,7 @@
     /* 속성의 변화를 부드럽게 전환 */
     transition: top 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     /* 다른 요소보다 앞에 위치 */
-    z-index: 99;
+    z-index: 1;
     /* 넘치는 콘텐츠를 보이게 함 */
     overflow: visible;
     /* 투명도 설정 */
@@ -36,14 +36,77 @@
     opacity: 1;
     /* 요소를 보이게 설정 */
     visibility: visible;
+    position: sticky;
 }
 
 .hamburger-content {
-    /* 내부 여백 설정 */
-    padding: 20px;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.hamburger-content h3 {
-    /* h3 요소의 상단 여백 제거 */
-    margin-top: 0;
+.hamburger-menu {
+    /* 너비 설정 */
+    width: 100%;
+    /* 높이 설정 */
+    height: 100%;
+    /* 디스플레이 속성 설정 */
+    display: flex;
+    /* 플렉스박스의 주축을 수직축으로 설정 */
+    flex-direction: row;
+    /* 플렉스박스의 주축을 수직축으로 설정 */
+    justify-content: center;
+    /* 플렉스박스의 주축을 수직축으로 설정 */
+    align-items: center;
+    padding: 10px;
+}
+
+.board-zone {
+    width: 70%;
+    height: 100%;
+    margin: 0;
+    padding: 10px;
+}
+
+.board-list-emp {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+.board-list-emp p {
+    color: #202b64;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
+.board-item {
+    width: 100%;
+}
+
+.function-zone {
+    width: 30%;
+    height: 100%;
+    margin: 0;
+    padding: 10px;  
+}
+
+.function-zone li{
+    align-items: center;
+}
+
+.function-zone li a{
+    color: #000; /* 링크 색상 설정 */
+    font-weight: bold;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
 }

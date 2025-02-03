@@ -3,45 +3,69 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <!-- nav bar -->
-<nav layout:fragment="navContent" class="nav-container container">
-    <ul class="nav-list">
-        <!-- 메뉴가 비어있을 때 메시지 표시 -->
-        <div th:if="${#lists.isEmpty(menuList)}" class="list-emp">
-            <p>메뉴 준비중입니다</p>
+<nav layout:fragment="navContent" class="nav-container container" id="nav-section">
+    <div class="nav-menu">
+        <ul class="nav-list">
+            <!-- 메뉴가 비어있을 때 메시지 표시 -->
+            <div th:if="${#lists.isEmpty(menuList)}" class="list-emp">
+                <p th:if="${isAdmin}">메뉴 준비중입니다.
+                    <a th:href="@{/adm/menu}" class="text-decoration-none">관리자모드 > 좌측메뉴 > 메뉴설정</a>
+                    에서 설정하실 수 있습니다.
+                </p>
+                <p th:unless="${isAdmin}">메뉴 준비중입니다</p>
+            </div>
+            <li class="nav-item" th:each="menu : ${menuList}">
+                <!-- 게시판 링크 -->
+                <a  th:if="${menu.menuType == 'board'}"
+                    th:href="@{/board/{link}(link=${menu.boardLink})}" 
+                    th:text="${menu.menuName}" 
+                    th:target="${menu.openInNewTab ? '_blank' : '_self'}">
+                </a>
+    
+                <!-- 외부 링크 -->
+                <a  th:if="${menu.menuType == 'externalLink'}"
+                    th:href="${menu.extraLink}" 
+                    th:text="${menu.menuName}" 
+                    th:target="${menu.openInNewTab ? '_blank' : '_self'}">
+                </a>
+    
+            </li>
+        </ul>
+        <button type="button" class="btn bi bi-list list-btn" id="hamburgerButton">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+
+    <div class="hamburger-container container" id="sidebar">
+        <div class="hamburger-content">
+            <div class="col d-flex justify-content-start align-items-center m-2"> <!-- align-items-center 추가 -->
+                <h3 class="m-0">전체 메뉴</h3>
+            </div>
+            <div class="hamburger-menu">
+                <ul class="board-zone">
+                    <div th:if="${#lists.isEmpty(menuList)}" class="board-list-emp">
+                        <p>메뉴 준비중입니다</p>
+                    </div>
+                    <li class="board-item" th:each="menu : ${menuList}">
+                        <!-- 게시판 링크 -->
+                        <a  th:if="${menu.menuType == 'board'}"
+                            th:href="@{/board/{link}(link=${menu.boardLink})}" 
+                            th:text="${menu.menuName}" 
+                            th:target="${menu.openInNewTab ? '_blank' : '_self'}">
+                        </a>
+                    </li>
+                </ul>
+                <ul class="function-zone">
+                    <li>
+                        <a href="#">채팅방 목록</a>
+                    </li>
+                </div>
+            </div>
         </div>
-        <li class="nav-item" th:each="menu : ${menuList}">
-            <!-- 게시판 링크 -->
-            <a  th:if="${menu.menuType == 'board'}"
-                th:href="@{/board/{link}(link=${menu.boardLink})}" 
-                th:text="${menu.menuName}" 
-                th:target="${menu.openInNewTab ? '_blank' : '_self'}">
-            </a>
+    </div>
 
-            <!-- 외부 링크 -->
-            <a  th:if="${menu.menuType == 'externalLink'}"
-                th:href="${menu.extraLink}" 
-                th:text="${menu.menuName}" 
-                th:target="${menu.openInNewTab ? '_blank' : '_self'}">
-            </a>
-
-        </li>
-    </ul>
-    <button type="button" class="btn bi bi-list list-btn" id="hamburgerButton">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
 
 </nav>
-<!-- <div layout:replace="~{fragments/hamburger}"></div> -->
-<div class="hamburger-container container" id="sidebar">
-    <div class="hamburger-content">
-        <h3>메뉴</h3>
-        <ul>
-            <li><a href="#">메뉴 1</a></li>
-            <li><a href="#">메뉴 2</a></li>
-            <li><a href="#">메뉴 3</a></li>
-        </ul>
-    </div>
-</div>
 </html>

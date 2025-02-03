@@ -1,6 +1,7 @@
 package kr.co.ipdisk.dundunhsk.service;
 
 import kr.co.ipdisk.dundunhsk.entity.SiteUser;
+import kr.co.ipdisk.dundunhsk.entity.UserRole;
 import kr.co.ipdisk.dundunhsk.exception.DataNotFoundException;
 import kr.co.ipdisk.dundunhsk.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ public class UserService{
         siteUser.setUserName(userName);
         siteUser.setUserEmail(userEmail);
         siteUser.setSignUpDate(LocalDateTime.now());
+        siteUser.setUserRole(UserRole.USER);
         userRepository.save(siteUser);
 
         return siteUser;

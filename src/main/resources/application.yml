@@ -11,10 +11,10 @@ spring:
   application:
     name: boards
   datasource:
-    url: jdbc:mariadb://10.12.9.4:3307/java_crud
-    # url: jdbc:mariadb://127.0.0.1:3306/java_board
-    username: springHSK
-    password: spring6265
+    # url: jdbc:mariadb://10.12.9.4:3307/java_board
+    url: jdbc:mariadb://127.0.0.1:3307/java_board
+    username: SpringUSER
+    password: Spring1234
     driver-class-name: org.mariadb.jdbc.Driver
   thymeleaf:
     cache: false
