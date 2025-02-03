@@ -37,35 +37,34 @@
             <span></span>
         </button>
     </div>
+</nav>
 
-    <div class="hamburger-container container" id="sidebar">
-        <div class="hamburger-content">
-            <div class="col d-flex justify-content-start align-items-center m-2"> <!-- align-items-center 추가 -->
-                <h3 class="m-0">전체 메뉴</h3>
-            </div>
-            <div class="hamburger-menu">
-                <ul class="board-zone">
-                    <div th:if="${#lists.isEmpty(menuList)}" class="board-list-emp">
-                        <p>메뉴 준비중입니다</p>
-                    </div>
-                    <li class="board-item" th:each="menu : ${menuList}">
-                        <!-- 게시판 링크 -->
-                        <a  th:if="${menu.menuType == 'board'}"
-                            th:href="@{/board/{link}(link=${menu.boardLink})}" 
-                            th:text="${menu.menuName}" 
-                            th:target="${menu.openInNewTab ? '_blank' : '_self'}">
-                        </a>
-                    </li>
-                </ul>
-                <ul class="function-zone">
-                    <li>
-                        <a href="#">채팅방 목록</a>
-                    </li>
+<div class="hamburger-container container" id="sidebar">
+    <div class="hamburger-content">
+        <div class="col d-flex justify-content-start align-items-center m-2"> <!-- align-items-center 추가 -->
+            <h3 class="m-0">전체 메뉴</h3>
+        </div>
+        <div class="hamburger-menu">
+            <ul class="board-zone">
+                <div th:if="${#lists.isEmpty(menuList)}" class="board-list-emp">
+                    <p>메뉴 준비중입니다</p>
                 </div>
+                <li class="board-item" th:each="menu : ${menuList}">
+                    <!-- 게시판 링크 -->
+                    <a  th:if="${menu.menuType == 'board'}"
+                        th:href="@{/board/{link}(link=${menu.boardLink})}" 
+                        th:text="${menu.menuName}" 
+                        th:target="${menu.openInNewTab ? '_blank' : '_self'}">
+                    </a>
+                </li>
+            </ul>
+            <ul class="function-zone">
+                <li>
+                    <a href="#">채팅방 목록</a>
+                </li>
             </div>
         </div>
     </div>
+</div>
 
-
-</nav>
 </html>

@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Button clicked!');
             hamburgerButton.classList.toggle('active');
             sidebar.classList.toggle('active');
-            navbar.classList.toggle('active');
         });
     } else {
         console.log('Button not found!');
     }
+
 });

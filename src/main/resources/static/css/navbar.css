@@ -81,8 +81,3 @@
     justify-content: center;
     transition: transform 0.3s ease-in-out;
 }
-
-/* 버튼 활성화 상태 */
-.list-btn.active {
-    transform: rotate(90deg);
-}
