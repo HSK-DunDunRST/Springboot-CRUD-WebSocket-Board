@@ -42,7 +42,7 @@
 <div class="hamburger-container container" id="sidebar">
     <div class="hamburger-content">
         <div class="col d-flex justify-content-start align-items-center m-2"> <!-- align-items-center 추가 -->
-            <h3 class="m-0">전체 메뉴</h3>
+            <h4 class="m-0">전체 메뉴</h4>
         </div>
         <div class="hamburger-menu">
             <ul class="board-zone">
@@ -53,6 +53,13 @@
                     <!-- 게시판 링크 -->
                     <a  th:if="${menu.menuType == 'board'}"
                         th:href="@{/board/{link}(link=${menu.boardLink})}" 
+                        th:text="${menu.menuName}" 
+                        th:target="${menu.openInNewTab ? '_blank' : '_self'}">
+                    </a>
+
+                    <!-- 외부 링크 -->
+                    <a  th:if="${menu.menuType == 'externalLink'}"
+                        th:href="${menu.extraLink}" 
                         th:text="${menu.menuName}" 
                         th:target="${menu.openInNewTab ? '_blank' : '_self'}">
                     </a>

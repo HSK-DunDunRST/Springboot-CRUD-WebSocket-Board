@@ -3,9 +3,11 @@
     /* 화면에 고정된 위치 */
     position: absolute;
     /* 1400px 영역의 가운데 맞춤 */
-    left: calc((100% - 1400px));
+    left: calc((100% - 1500px));
+    /* 상단에 위치 */
+    top: 130px;
     /* 너비를 100%로 설정 */
-    width: 1000px;
+    width: 1200px;
     /* 가로형 메뉴의 높이 */
     height: 200px;
     /* 배경색 설정 */
@@ -79,10 +81,11 @@
 }
 
 .board-list-emp p {
-    color: #202b64;
+    color: #293fad;
     font-weight: bold;
     margin: 0;
     padding: 0;
+    font-size: 14px;
 }
 
 .board-item {
@@ -93,18 +96,21 @@
     width: 30%;
     height: 100%;
     margin: 0;
-    padding: 10px;  
+    padding: 10px;
+    border-left: 1px solid #e0e2e5;
 }
 
 .function-zone li{
-    align-items: center;
+    text-align: center;
 }
 
 .function-zone li a{
     color: #000; /* 링크 색상 설정 */
-    font-weight: bold;
     text-decoration: none;
     width: 100%;
     height: 100%;
-    text-align: center;
+}
+
+.function-zone li a:hover {
+    color: #007bff; /* 링크에 마우스 오버 시 색상 변경 */
 }
