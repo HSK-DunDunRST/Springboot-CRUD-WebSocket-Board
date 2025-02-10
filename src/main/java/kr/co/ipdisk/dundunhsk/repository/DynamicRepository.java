@@ -31,7 +31,6 @@ public class DynamicRepository {
                 "view_count INT DEFAULT 0, " +
                 "post_link1 TEXT, " +
                 "post_link2 TEXT, " +
-                "post_link3 TEXT, " +
                 "post_isPinned BOOLEAN DEFAULT FALSE, " +
                 "FOREIGN KEY (board_id) REFERENCES board_data(id) ON DELETE CASCADE" +
                 ");", "tbl_" + boardTableName ); // `boardTableName`은 테이블 이름이 들어갈 변수 (tbl_***)
@@ -85,5 +84,5 @@ public class DynamicRepository {
         }
     }
 
-
+    
 }

@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/post_layout}">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layout/post_layout}">
 
 <main layout:fragment="mainContent" class="main-container container">
-    <h5 class="my-3 border-bottom pb-2">게시글 등록</h5>
     <form th:action="@{/board/{boardTable}/create(boardTable=${boardTable})}" th:object="${PostDTO}" method="post">
-        <div th:replace="~{error/error_form :: errorFormFragment}"></div>
-        <div class="mb-3">
-            <input type="checkbox" class="form-check-input" id="isPinned" name="postIsPinned" th:checked="${postIsPinned}">
-            <label class="form-check-label" for="isPinned">공지글</label>
+        <div class="row-12 d-flex border-bottom" style="height: 55px;">
+            <div class="col d-flex justify-content-start align-items-center m-2"> <!-- align-items-center 추가 -->
+                <h5 class="my-3">게시글 등록</h5>
+            </div>
+            <div class="col d-flex justify-content-end align-items-center m-2">
+                <input type="submit" value="게시하기" class="btn btn-primary">
+            </div>
+        </div>
+        <div th:replace="~{error/error_field :: errorFormFragment}"></div>
+        <div class="row-12 d-flex m-2" style="height: 40px;">
+            <div class="col d-flex justify-content-center align-items-center">
+                <h6 class="my-3" style="width: 30px;">제목</h6>
+            </div>
+            <div class="col-10 mb-3">
+                <input type="text" th:field="*{postSubject}" name="postSubject" id="subject" class="form-control">
+            </div>
+            <div class="col d-flex justify-content-center align-items-center m-2">
+                <input type="checkbox" class="form-check-input m-1" id="isPinned" name="postIsPinned" th:checked="${postIsPinned}">
+                <label class="form-check-label" for="isPinned">공지글</label>
+            </div>
         </div>
         <div class="mb-3">
-            <label for="subject" class="form-label">제목</label>
-            <input type="text" th:field="*{postSubject}" name="postSubject" id="subject" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="content" class="form-label">내용</label>
-            <textarea th:field="*{postContent}" name="postContent" id="content" class="form-control" rows="10"></textarea>
+            <!-- TOAST UI Editor가 들어갈 div태그 -->
+            <div id="editor"></div>
         </div>
         <div class="mb-3" style="display: flex;">
             <label for="link_1" class="form-label m-0" style="width: 10%; height: 100%; text-align: center;">링크1</label>
@@ -27,11 +38,27 @@
             <label for="link_2" class="form-label m-0" style="width: 10%; height: 100%; text-align: center;">링크2</label>
             <input type="text" th:field="*{postLink2}" name="link2" id="link_2" class="form-control">
         </div>
-        <div class="mb-3" style="display: flex;">
-            <label for="link_3" class="form-label m-0" style="width: 10%; height: 100%; text-align: center;">링크3</label>
-            <input type="text" th:field="*{postLink3}" name="link3" id="link_3" class="form-control">
-        </div>
-        <input type="submit" value="게시하기" class="btn btn-primary my-2">
     </form>
+
+    
+    <!-- TOAST UI Editor CDN URL(JS) -->
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <!-- TOAST UI Editor 생성 JavaScript 코드 -->
+    <script>
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            previewStyle: 'vertical',
+            height: '500px',
+            initialValue: '안녕하세요. METASTAR입니다.',
+        });
+
+        // editor.getHtml()을 사용해서 에디터 내용 받아오기
+        see1 = function() {
+            console.log(editor.getHTML());
+        }
+        see2 = function() {
+            console.log(editor.getMarkdown());
+        }
+    </script>
 </main>
 </html>

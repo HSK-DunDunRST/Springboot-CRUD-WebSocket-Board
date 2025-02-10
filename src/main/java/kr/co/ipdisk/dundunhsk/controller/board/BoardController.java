@@ -58,7 +58,7 @@ public class BoardController {
 
     //게시글 작성 페이지 요청
     @GetMapping("/{boardTable}/create/")
-    public String createPost(@PathVariable  String boardTable, Model model) {
+    public String createPost(@PathVariable("boardTable")  String boardTable, Model model) {
         PostDTO postDTO = new PostDTO(); // DTO 초기화
         model.addAttribute("boardTable", boardTable);
         model.addAttribute("PostDTO", postDTO); // 모델에 추가
@@ -71,17 +71,17 @@ public class BoardController {
 
     // 게시글 생성 처리
     @PostMapping("/{boardTable}/create")
-    public String createPost(@PathVariable String boardTable, @ModelAttribute PostDTO postDTO, Model model) {
+    public String createPost(@PathVariable("boardTable") String boardTable, @ModelAttribute("postDTO") PostDTO postDTO, Model model) {
         Optional<Board> board = boardService.findByTableName(boardTable);
         String boardName = board.get().getBoardName();
         model.addAttribute("boardName", boardName);
         model.addAttribute("boardTable", boardTable);
 
         postDTO.setCreateUser(userService.getCurrentLoginUser().getUserId()); // 현재 사용자 ID를 가져오는 로직 추가 필요  
-        String insertPostQuery = String.format("INSERT INTO %s (board_id, post_subject, post_content, create_user, post_link1, post_link2, post_link3, post_isPinned) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "tbl_" + boardTable);
+        String insertPostQuery = String.format("INSERT INTO %s (board_id, post_subject, post_content, create_user, post_link1, post_link2, post_isPinned) VALUES (?, ?, ?, ?, ?, ?, ?)", "tbl_" + boardTable);
         jdbcTemplate.update(insertPostQuery, 
                                 board.get().getId(), postDTO.getPostSubject(), postDTO.getPostContent(), postDTO.getCreateUser(), 
-                                postDTO.getPostLink1(), postDTO.getPostLink2(), postDTO.getPostLink3(), postDTO.getPostIsPinned()
+                                postDTO.getPostLink1(), postDTO.getPostLink2(), postDTO.getPostIsPinned()
                             );
 
         return "redirect:/board/{boardTable}"; // 리디렉션 경로 수정
@@ -98,7 +98,6 @@ public class BoardController {
         // System.out.println("Post Subject: " + post.getPostSubject());
         // System.out.println("Link1: " + post.getPostLink1());
         // System.out.println("Link2: " + post.getPostLink2());
-        // System.out.println("Link3: " + post.getPostLink3());
 
         return "views/post_view";
     }

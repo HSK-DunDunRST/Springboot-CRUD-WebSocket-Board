@@ -27,6 +27,5 @@ public class PostDTO {
     private Integer viewCount; // 조회수
     private String postLink1; // 링크 1
     private String postLink2; // 링크 2
-    private String postLink3; // 링크 3
     private Boolean postIsPinned; // 상단 고정 여부
 }
