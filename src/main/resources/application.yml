@@ -11,10 +11,9 @@ spring:
   application:
     name: boards
   datasource:
-    # url: jdbc:mariadb://10.12.9.4:3307/java_board
-    url: jdbc:mariadb://127.0.0.1:3307/java_board
-    username: JavaHSK
-    password: Java1234
+    url: jdbc:mariadb://HOST_IP:HOST_PORT/DB_NANE
+    username: DB_USER
+    password: DB_PW
     driver-class-name: org.mariadb.jdbc.Driver
   thymeleaf:
     cache: false
